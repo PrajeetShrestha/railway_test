@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Database Viewer</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <h1>Database Viewer</h1>
+
+  <!-- Add User Form -->
+  <h2>Add New User</h2>
+  <form action="/add" method="POST">
+    <input type="text" name="name" placeholder="Name" required>
+    <input type="email" name="email" placeholder="Email" required>
+    <button type="submit">Add</button>
+  </form>
+
+  <!-- Edit User Form (shown only if editing) -->
+  <% if (typeof editUser !== 'undefined') { %>
+    <h2>Edit User</h2>
+    <form action="/update/<%= editUser.id %>" method="POST">
+      <input type="text" name="name" value="<%= editUser.name %>" required>
+      <input type="email" name="email" value="<%= editUser.email %>" required>
+      <button type="submit">Update</button>
+    </form>
+  <% } %>
+
+  <!-- Users Table -->
+  <h2>Users</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% users.forEach(user => { %>
+        <tr>
+          <td><%= user.id %></td>
+          <td><%= user.name %></td>
+          <td><%= user.email %></td>
+          <td>
+            <a href="/edit/<%= user.id %>">Edit</a>
+            <form action="/delete/<%= user.id %>" method="POST" style="display:inline;">
+              <button type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</body>
+</html>
